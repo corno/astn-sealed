@@ -1,5 +1,5 @@
-import * as _ea from 'pareto-core-internals'
-import * as _et from 'pareto-core-interface'
+import * as _pinternals from 'pareto-core-internals'
+import * as _pi from 'pareto-core-interface'
 
 //language independent parser functionality
 
@@ -173,6 +173,6 @@ export const create_string_iterator = (
 }
 
 export type Token_Iterator<Expected, Token> = {
-    'get required token': (expected: _et.List<Expected>) => Token,
+    'get required token': (expected: _pi.List<Expected>) => Token,
     'consume token': () => void,
 }

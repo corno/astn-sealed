@@ -1,9 +1,9 @@
-import * as _ea from 'pareto-core-deserializer'
+import * as _p from 'pareto-core-deserializer'
 import * as _pi from 'pareto-core-interface'
-import * as _ei from 'pareto-core-internals'
+import * as _pinternals from 'pareto-core-internals'
 
 import * as d_ast from "../sealed_astn_source/productions/annotated_token"
-import * as _target from "../../../interface/to_be_generated/parse_astn_source"
+import * as d_target from "../../../interface/to_be_generated/parse_astn_source"
 import * as d_astn_source from "../../../interface/to_be_generated/astn_source"
 
 import * as pg from "../../parse/astn_parse_generic"
@@ -16,7 +16,7 @@ export type Parameters = {
     'uri': string
 }
 
-export type Document = _pi.Deserializer_With_Parameters<d_astn_source.Document, _target.Error, Parameters>
+export type Document = _pi.Deserializer_With_Parameters<d_astn_source.Document, d_target.Error, Parameters>
 
 export const Document: Document = ($, abort, $p) => {
     const string_iterator = si.create_string_iterator(

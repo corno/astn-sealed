@@ -1,15 +1,15 @@
 import * as _p from 'pareto-core-refiner'
 import * as _pi from 'pareto-core-interface'
 
-import * as _target from "../../../../interface/to_be_generated/astn_source"
+import * as d_target from "../../../../interface/to_be_generated/astn_source"
 import * as d_parse_astn_source from "../../../../interface/to_be_generated/parse_astn_source"
-import * as _source from "../../../../interface/to_be_generated/token"
+import * as d_source from "../../../../interface/to_be_generated/token"
 
 import * as pg from "../../../parse/astn_parse_generic"
 
 //this file contains the parser functionality, each function return a type from the 'ast' schema
 
-export const Structural_Token = (token: _source.Annotated_Token): _target.Structural_Token => {
+export const Structural_Token = (token: d_source.Annotated_Token): d_target.Structural_Token => {
     return {
         'trailing trivia': token['trailing trivia'],
         'range': {
@@ -23,7 +23,7 @@ export const Structural_Token = (token: _source.Annotated_Token): _target.Struct
 export const String = (
     token_iterator: pg.ASTN_Token_Iterator,
     abort: ($: pg.My_Parse_Error) => never,
-): _target.String => {
+): d_target.String => {
     const token = token_iterator['get required token'](_p.list_literal([['a text value', null]]))
     if (token.type[0] !== 'string') {
         return pg.throw_unexpected_token(token, _p.list_literal([['a text value', null]]), abort)
@@ -44,7 +44,7 @@ export const String = (
 export const Document = (
     token_iterator: pg.ASTN_Token_Iterator,
     abort: ($: pg.My_Parse_Error) => never,
-): _target.Document => {
+): d_target.Document => {
     return {
         'header': _p.block(() => {
             const token = token_iterator['get required token'](_p.list_literal([['!', null], ['a value', null]]))
@@ -63,11 +63,11 @@ export const Document = (
 
 export const Elements = (
     token_iterator: pg.ASTN_Token_Iterator,
-    end_reached: ($: _source.Token_Type) => boolean,
+    end_reached: ($: d_source.Token_Type) => boolean,
     end_token: d_parse_astn_source.Expected,
     abort: ($: pg.My_Parse_Error) => never,
-): _target.Elements => {
-    return _p.build_list<_target.Elements.L>(($i): void => {
+): d_target.Elements => {
+    return _p.build_list<d_target.Elements.L>(($i): void => {
         while (true) {
             const current_token = token_iterator['get required token'](_p.list_literal([end_token, ['a value', null]]))
             if (end_reached(current_token.type)) {
@@ -82,11 +82,11 @@ export const Elements = (
 
 export const Key_Value_Pairs = (
     token_iterator: pg.ASTN_Token_Iterator,
-    end_reached: ($: _source.Token_Type) => boolean,
+    end_reached: ($: d_source.Token_Type) => boolean,
     end_token: d_parse_astn_source.Expected,
     abort: ($: pg.My_Parse_Error) => never,
-): _target.Key_Value_Pairs => {
-    return _p.build_list<_target.Key_Value_Pairs.L>(($i): void => {
+): d_target.Key_Value_Pairs => {
+    return _p.build_list<d_target.Key_Value_Pairs.L>(($i): void => {
         while (true) {
             const current_token = token_iterator['get required token'](_p.list_literal([end_token, ['a text value', null]]))
             if (end_reached(current_token.type)) {
@@ -116,12 +116,12 @@ export const Key_Value_Pairs = (
 export const Value = (
     token_iterator: pg.ASTN_Token_Iterator,
     abort: ($: pg.My_Parse_Error) => never,
-): _target.Value => {
+): d_target.Value => {
     const token = token_iterator['get required token'](_p.list_literal([['a value', null]]))
-    return _p.cc(token.type, ($): _target.Value => {
+    return _p.cc(token.type, ($): d_target.Value => {
 
         switch ($[0]) {
-            case 'string': return _p.ss($, ($): _target.Value => {
+            case 'string': return _p.ss($, ($): d_target.Value => {
 
                 return ['string', String(token_iterator, abort)]
             })
@@ -149,7 +149,7 @@ export const Value = (
                     })
                 }]]
             })
-            case '[': return _p.ss($, ($): _target.Value => {
+            case '[': return _p.ss($, ($): d_target.Value => {
                 token_iterator['consume token']()
                 return ['ordered collection', ['list', {
                     '[': Structural_Token(token),
@@ -161,7 +161,7 @@ export const Value = (
                     }),
                 }]]
             })
-            case '<': return _p.ss($, ($): _target.Value => {
+            case '<': return _p.ss($, ($): d_target.Value => {
                 token_iterator['consume token']()
                 return ['ordered collection', ['concise group', {
                     '<': Structural_Token(token),

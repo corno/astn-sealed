@@ -1,4 +1,4 @@
-import * as _ea from 'pareto-core-serializer'
+import * as _p from 'pareto-core-serializer'
 import * as _pi from 'pareto-core-interface'
 
 import * as astn_target from "../../../interface/to_be_generated/astn_target"
@@ -9,7 +9,7 @@ const indentation = `    `
 export const Document = (
     $: astn_target.Document
 ): string => {
-    return _ea.build_text(($i) => {
+    return _p.build_text(($i) => {
         Value($, ``, $i)
     })
 }
@@ -19,9 +19,9 @@ export const Value = (
     indent: string,
     $i: _pi.Text_Builder
 ) => {
-    _ea.cc($, ($) => {
+    _p.cc($, ($) => {
         switch ($[0]) {
-            case 'dictionary': return _ea.ss($, ($) => {
+            case 'dictionary': return _p.ss($, ($) => {
                 $i['add snippet'](`{`)
                 $.map(($, key) => {
                     $i['add snippet'](`\n${indent}${indentation}\`${key}\`: `) //FIXME escape key
@@ -29,7 +29,7 @@ export const Value = (
                 })
                 $i['add snippet'](`\n${indent}}`)
             })
-            case 'verbose group': return _ea.ss($, ($) => {
+            case 'verbose group': return _p.ss($, ($) => {
                 $i['add snippet'](`(`)
                 $.map(($, key) => {
                     $i['add snippet'](`\n${indent}${indentation}'${key}': `) //FIXME escape key
@@ -37,7 +37,7 @@ export const Value = (
                 })
                 $i['add snippet'](`\n${indent})`)
             })
-            case 'list': return _ea.ss($, ($) => {
+            case 'list': return _p.ss($, ($) => {
                 $i['add snippet'](`[`)
                 $.map(($) => {
                     $i['add snippet'](` `)
@@ -45,34 +45,34 @@ export const Value = (
                 })
                 $i['add snippet'](` ]`)
             })
-            case 'state': return _ea.ss($, ($) => {
+            case 'state': return _p.ss($, ($) => {
                 $i['add snippet'](`| '${$.state}' `)
                 Value($.value, indent, $i)
             })
-            case 'optional': return _ea.ss($, ($) => _ea.cc($, ($) => {
+            case 'optional': return _p.ss($, ($) => _p.cc($, ($) => {
                 switch ($[0]) {
-                    case 'not set': return _ea.ss($, ($) => $i['add snippet'](`~`))
-                    case 'set': return _ea.ss($, ($) => {
+                    case 'not set': return _p.ss($, ($) => $i['add snippet'](`~`))
+                    case 'set': return _p.ss($, ($) => {
                         $i['add snippet'](`* `)
                         Value($, indent, $i)
                     })
 
-                    default: return _ea.au($[0])
+                    default: return _p.au($[0])
                 }
             }))
-            case 'nothing': return _ea.ss($, ($) => $i['add snippet'](`~`))
-            case 'text': return _ea.ss($, ($) => {
+            case 'nothing': return _p.ss($, ($) => $i['add snippet'](`~`))
+            case 'text': return _p.ss($, ($) => {
                 const value = $.value
-                return _ea.cc($.delimiter, ($) => {
+                return _p.cc($.delimiter, ($) => {
                     switch ($[0]) {
-                        case 'backtick': return _ea.ss($, ($) => $i['add snippet'](`\`${value}\``))
-                        case 'quote': return _ea.ss($, ($) => $i['add snippet'](`"${value}"`))
-                        case 'none': return _ea.ss($, ($) => $i['add snippet'](`${value}`))
-                        default: return _ea.au($[0])
+                        case 'backtick': return _p.ss($, ($) => $i['add snippet'](`\`${value}\``))
+                        case 'quote': return _p.ss($, ($) => $i['add snippet'](`"${value}"`))
+                        case 'none': return _p.ss($, ($) => $i['add snippet'](`${value}`))
+                        default: return _p.au($[0])
                     }
                 })
             })
-            default: return _ea.au($[0])
+            default: return _p.au($[0])
         }
     })
 }
