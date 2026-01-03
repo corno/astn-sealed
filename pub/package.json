@@ -27,8 +27,8 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "pareto-core-interface": "^0.1.12",
-    "pareto-core-refiner": "^0.1.7",
-    "pareto-standard-operations": "^0.3.33"
+    "pareto-core-interface": "^0.1.16",
+    "pareto-core-refiner": "^0.1.15",
+    "pareto-standard-operations": "^0.3.35"
   }
 }

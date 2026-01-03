@@ -14,7 +14,6 @@ export type Location = {
 export type Deprecated_String_Iterator = { //use an iterator with Annotated_Character
 
     'consume character': () => void
-    'consume string': ($: string) => void
     /**
      * returns the current character, or null if the end of the string has been reached.
      * equivalent to `look ahead(0)`
@@ -33,8 +32,6 @@ export type Deprecated_String_Iterator = { //use an iterator with Annotated_Char
      */
     'get line indentation': () => number
 }
-
-import { text_to_character_list as op_to_character_list } from 'pareto-core-internals'
 
 const WhitespaceChars = {
     tab: 0x09,                  // \t
@@ -60,7 +57,7 @@ export const create_string_iterator = (
     }
 ): Deprecated_String_Iterator => {
     const source = $
-    const characters = op_to_character_list($)
+    const characters = _pinternals.list_from_text($, ($) => $)
     const length = characters.get_number_of_elements()
 
     type Relative_Position_Information = {
@@ -78,7 +75,7 @@ export const create_string_iterator = (
     }
 
     const consume_character = () => {
-        const c = characters.__get_element_at(position)
+        const c = characters.__get_possible_element_at(position)
         const start = relative_position
         relative_position = c.transform(
             ($) => {
@@ -117,17 +114,12 @@ export const create_string_iterator = (
     }
 
     return {
-        'consume string': ($: string) => {
-            op_to_character_list($).__for_each(() => {
-                consume_character()
-            })
-        },
         'consume character': consume_character,
         'get current character': () => {
             if (position === length) {
                 return null
             }
-            return characters.__get_element_at(position).transform(
+            return characters.__get_possible_element_at(position).transform(
                 ($) => $,
                 () => null
             )
@@ -137,7 +129,7 @@ export const create_string_iterator = (
             if (next_position >= length) {
                 return null
             }
-            return characters.__get_element_at(next_position).transform(
+            return characters.__get_possible_element_at(next_position).transform(
                 ($) => $,
                 () => null
             )

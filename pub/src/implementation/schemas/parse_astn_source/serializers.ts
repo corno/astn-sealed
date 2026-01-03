@@ -31,7 +31,7 @@ export const Error: Error = ($) => {
                         case 'unexpected token': return _p.ss($, ($) => `unexpected token`)
                         default: return _p.au($[0])
                     }
-                }) + `, expected: ` + _p.build_text(($i) => {
+                }) + `, expected: ` + _p.text.build(($i) => {
                     $.expected.__for_each(($) => {
                         $i['add snippet'](_p.cc($, ($) => {
                             return _p.cc($, ($) => {

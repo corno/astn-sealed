@@ -40,7 +40,7 @@ export const Whitespace = (
 
     const start = iterator['create location info']()
     return {
-        'value': _pds.build_text(($i) => {
+        'value': _pds.text.build(($i) => {
             while (true) {
 
 
@@ -105,7 +105,7 @@ export const Trivia = (
 
     return {
         'leading whitespace': Whitespace(iterator, abort),
-        'comments': _pds.build_list(($i) => {
+        'comments': _pds.list.build(($i) => {
             while (true) {
                 const $ = iterator['get current character']()
                 if ($ === null) {
@@ -140,7 +140,7 @@ export const Trivia = (
                                 }
                                 $i['add element']({
                                     'type': ['line', null],
-                                    'content': _pds.build_text(($i) => {
+                                    'content': _pds.text.build(($i) => {
                                         while (true) {
                                             const $ = iterator['get current character']()
                                             if ($ === null) {
@@ -170,7 +170,7 @@ export const Trivia = (
                                 iterator['consume character']() // consume the asterisk
                                 $i['add element']({
                                     'type': ['block', null],
-                                    'content': _pds.build_text(($i) => {
+                                    'content': _pds.text.build(($i) => {
                                         let found_asterisk = false
                                         const Character = {
                                             solidus: 0x2F,              // /
@@ -376,7 +376,7 @@ export const Annotated_Token = (
                 default:
                     return ['string', {
                         'type': ['undelimited', null],
-                        'value': _pds.build_text(($i) => {
+                        'value': _pds.text.build(($i) => {
                             while (true) {
                                 const $ = iterator['get current character']()
                                 if ($ === null) {
@@ -467,7 +467,7 @@ export const Delimited_String = (
 
     }
     const start = iterator['create location info']()
-    const txt = _pds.build_text(($i) => {
+    const txt = _pds.text.build(($i) => {
         while (true) {
             const $ = iterator['get current character']()
             if ($ === null) {
@@ -573,7 +573,7 @@ export const Delimited_String = (
                                 break
                             case Character.u:
                                 iterator['consume character']()
-                                $i['add character'](op_parse_hexadecimal(_pds.build_text(($i) => {
+                                $i['add character'](op_parse_hexadecimal(_pds.text.build(($i) => {
                                     const get_char = () => {
                                         const char = iterator['get current character']()
                                         if (char === null) {
@@ -635,7 +635,7 @@ export const Tokenizer_Result = (
 ): d_token.Tokenizer_Result => {
     return {
         'leading trivia': Trivia(iterator, abort),
-        'tokens': _pds.build_list<d_token.Annotated_Token>($i => {
+        'tokens': _pds.list.build<d_token.Annotated_Token>($i => {
             while (iterator['get current character']() !== null) {
 
                 const token = Annotated_Token(iterator, abort,)
