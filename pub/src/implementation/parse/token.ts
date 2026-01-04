@@ -147,10 +147,8 @@ export const Trivia = (
                                                 return
                                             }
                                             switch ($) {
-                                                case Character.line_feed:
-                                                    return
-                                                case Character.carriage_return:
-                                                    return
+                                                case Character.line_feed: return
+                                                case Character.carriage_return: return
                                                 default:
                                                     iterator['consume character']()
                                                     $i['add character']($)
